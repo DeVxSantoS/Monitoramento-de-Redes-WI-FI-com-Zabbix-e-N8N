@@ -74,7 +74,7 @@ Operação da ação:
 
 1.3 Mediatype
 
-O mediatype [zbx_export_mediatypes.yaml]_(https://github.com/DeVxSantoS/Monitoramento-de-Redes-WI-FI-com-Zabbix-e-N8N/blob/b12dea5edbe08d928bc66d08127ac5dcdc03abbd/docs/zbx_export_mediatypes.yaml)_ é o que enviará as métricas para o N8N. Nele deve ser modificado o valor do campo URL para o endereço URL do webhook do workflow no N8N. O mediatype deve ser adicionado na aba user > notification(imagem 1).
+O mediatype [zbx_export_mediatypes.yaml](https://github.com/DeVxSantoS/Monitoramento-de-Redes-WI-FI-com-Zabbix-e-N8N/blob/b12dea5edbe08d928bc66d08127ac5dcdc03abbd/docs/zbx_export_mediatypes.yaml) é o que enviará as métricas para o N8N. Nele deve ser modificado o valor do campo URL para o endereço URL do webhook do workflow no N8N. O mediatype deve ser adicionado na aba user > notification(imagem 1).
 
 Notificação:
 <img width="1849" height="489" alt="Captura de tela 2025-11-24 184714" src="https://github.com/user-attachments/assets/705de839-c4d1-4fce-89e8-cd3f402eb757" />
