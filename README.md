@@ -56,6 +56,7 @@ Para a correta execução do workflow é necessário que a integração entre o 
 1.1 Trigger
 
 A maioria dos gatilhos já vem configurados por padrão no zabbix, caso seu problema não esteja entre eles, é necessário criá-lo. O gatilho usado para esse projeto foi o de perda de pacotes:
+<img width="1400" height="434" alt="Captura de tela 2025-11-24 184445" src="https://github.com/user-attachments/assets/eb2e9c09-f672-49a5-a81c-1b6374dc6d56" />
 
 
 1.2 Action
