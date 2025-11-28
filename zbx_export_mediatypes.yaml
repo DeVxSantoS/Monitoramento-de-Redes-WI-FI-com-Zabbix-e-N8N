@@ -1,0 +1,85 @@
+zabbix_export:
+  version: '7.4'
+  media_types:
+    - name: n8n_ping_loss
+      type: WEBHOOK
+      parameters:
+        - name: alert_message
+          value: '{ALERT.MESSAGE}'
+        - name: alert_subject
+          value: '{ALERT.SUBJECT}'
+        - name: discord_endpoint
+          value: '{ALERT.SENDTO}'
+        - name: event_date
+          value: '{EVENT.DATE}'
+        - name: event_id
+          value: '{EVENT.ID}'
+        - name: event_name
+          value: '{EVENT.NAME}'
+        - name: event_nseverity
+          value: '{EVENT.NSEVERITY}'
+        - name: event_opdata
+          value: '{EVENT.OPDATA}'
+        - name: event_severity
+          value: '{EVENT.SEVERITY}'
+        - name: event_source
+          value: '{EVENT.SOURCE}'
+        - name: event_tags
+          value: '{EVENT.TAGS}'
+        - name: event_time
+          value: '{EVENT.TIME}'
+        - name: event_update_status
+          value: '{EVENT.UPDATE.STATUS}'
+        - name: event_value
+          value: '{EVENT.VALUE}'
+        - name: host_ip
+          value: '{HOST.IP}'
+        - name: host_name
+          value: '{HOST.NAME}'
+        - name: trigger_description
+          value: '{TRIGGER.DESCRIPTION}'
+        - name: trigger_id
+          value: '{TRIGGER.ID}'
+        - name: URL
+          value: 'http://192.168.4.124:5678/webhook/zabbix-n8n'
+      script: |
+        try {
+            var params = JSON.parse(value),
+                req = new HttpRequest();
+        
+            req.addHeader('Content-Type: application/json');
+        
+            var body = {
+                alert_message: params.alert_message,
+                subject: params.alert_subject,
+                n8n_endpoint: params.n8n_endpoint,
+                event_date: params.event_date,
+                event_id: params.event_id,
+                event_name: params.event_name,
+                event_nseverity: params.event_nseverity,
+                event_opdata: params.event_opdata,
+                event_severity: params.event_severity,
+                event_source: params.event_source,
+                event_tags: params.event_tags,
+                event_time: params.event_time,
+                event_update_status: params.event_update_status,
+                event_update_user: params.event_update_user,
+                event_value: params.event_value,
+                host_ip: params.host_ip,
+                host_name: params.host_name,
+                trigger_description: params.trigger_description,
+                trigger_id: params.trigger_id
+            };
+        
+            var resp = req.post(params.URL, JSON.stringify(body));
+            return resp;
+        }
+        catch (error) {
+            throw 'Webhook failed: ' + error;
+        }
+      message_templates:
+        - event_source: TRIGGERS
+          operation_mode: PROBLEM
+          message: |
+            *{HOST.NAME}*
+            🟥 `{EVENT.NAME}`
