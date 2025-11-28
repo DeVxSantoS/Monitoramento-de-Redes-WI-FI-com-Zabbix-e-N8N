@@ -56,22 +56,34 @@ Para a correta execução do workflow é necessário que a integração entre o 
 1.1 Trigger
 
 A maioria dos gatilhos já vem configurados por padrão no zabbix, caso seu problema não esteja entre eles, é necessário criá-lo. O gatilho usado para esse projeto foi o de perda de pacotes:
-<img width="1400" height="434" alt="Captura de tela 2025-11-24 184445" src="https://github.com/user-attachments/assets/eb2e9c09-f672-49a5-a81c-1b6374dc6d56" />
+<img width="1400" height="727" alt="Captura de tela 2025-11-24 184624" src="https://github.com/user-attachments/assets/639da265-6723-4063-b369-ab29479aba08" />
+
+
 
 
 1.2 Action
 
 A ação é necessária para o envio dos parâmetros. Essa deve ser configurada de acordo ao problema. Nesse exemplo, a condição para o acionamento da ação(imagem 1) é o status do trigger ser igual a `TRUE`. Quando a condição for cumprida, a ação tomada(imagem 2) sera a operação de notificar o perfil admin e o mediatype n8n_ping_loss.
 
+Condição da ação:
+<img width="1400" height="434" alt="Captura de tela 2025-11-24 184445" src="https://github.com/user-attachments/assets/a3248536-f1e8-4065-8ec3-d547a74a7c4d" />
+
+Operação da ação:
+<img width="1407" height="727" alt="Captura de tela 2025-11-24 184512" src="https://github.com/user-attachments/assets/1e370fcc-73af-42ac-a361-5a3fa226aa46" />
+
 
 1.3 Mediatype
 
-O médiatype [arquivo.yaml] é o que enviará as métricas para o N8N. Nele deve ser modificado o valor do campo URL para o endereço URL do webhook do workflow no N8N. O mediatype deve ser adicionado na aba user > notification(imagem 1).
+O mediatype [arquivo.yaml] é o que enviará as métricas para o N8N. Nele deve ser modificado o valor do campo URL para o endereço URL do webhook do workflow no N8N. O mediatype deve ser adicionado na aba user > notification(imagem 1).
+
+Notificação:
+<img width="1849" height="489" alt="Captura de tela 2025-11-24 184714" src="https://github.com/user-attachments/assets/705de839-c4d1-4fce-89e8-cd3f402eb757" />
 
 
 1.4 Webhook
 
-Escrever em sala.
+O webhook irá receber os parametros do mediatype via HTTP call na URL correpondente ao webhook:
+<img width="576" height="804" alt="Captura de tela 2025-11-28 183123" src="https://github.com/user-attachments/assets/42311452-650b-4f4b-974e-5e656120f328" />
 
 
 ### 2 HTTP request - API zabbix
@@ -82,12 +94,33 @@ A API do Zabbix possibilita coletar metricas de hosts através de um HTTP reques
 
 2.1 Node HTTP request
 
-Escrever em sala
+O N8N possui um node nativa para o zabbix. Através dele é possivel obter as metricas do evento desejado. Para isso foi configurado um HTTP request pelo metodo post, assim os parametros serão carregados pelo corpo da mensagem.
+
+<img width="520" height="808" alt="image" src="https://github.com/user-attachments/assets/307fdc7f-41be-4665-9385-77875110552a" />
+
+Para requisitar apenas as metricas necessarias e preciso especificar o corpo da requisição. O corpo usado tem o seguinte formato:
+{
+  "jsonrpc": "2.0",
+  "method": "item.get",
+  "params": {
+    "output": ["itemid", "name", "key_", "lastvalue", "units"],
+    "search": {
+    "key_": "icmppingloss"
+    },
+    "filter": {"host": ["{{ $json.body.host_name }}"] },
+    "sortfield": "name",
+    "sortorder": "ASC"
+  },
+  "id": 1
+}
 
 
-2.1 Credencial Zabbix
+2.2 Credencial Zabbix
 
-Escrever em sala
+Para que a requisição seja aceita pela API do zabbix é preciso de uma credencial de acesso. São necessarios a URL do zabbix e um token da API, o segundo pode ser gerado dentro do zabbix na aba Users>API tokens.
+
+<img width="1911" height="901" alt="image" src="https://github.com/user-attachments/assets/c6d2358c-6042-42ae-beb6-9d1ca6133cf2" />
+
 
 
 ## ⚠️ Importante
