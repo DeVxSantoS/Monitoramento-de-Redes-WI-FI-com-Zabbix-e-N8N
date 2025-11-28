@@ -1,0 +1,302 @@
+{
+  "name": "produção",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "zabbix-n8n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -64,
+        80
+      ],
+      "id": "b8e806e2-9d4e-4bc0-9f11-5a125c8fb54b",
+      "name": "Webhook",
+      "webhookId": "0296fa5d-ce44-4d6b-9bd0-48bf81f1353e"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.body.event_opdata }}",
+                    "rightValue": 40,
+                    "operator": {
+                      "type": "number",
+                      "operation": "gte"
+                    },
+                    "id": "6b44b4ac-8aef-4222-b6aa-73a81ae31b0c"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "40%"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "95a43058-70e9-4082-890b-b5de7704e996",
+                    "leftValue": "={{ $json.body.event_opdata }}",
+                    "rightValue": 100,
+                    "operator": {
+                      "type": "number",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "100%"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3,
+      "position": [
+        192,
+        80
+      ],
+      "id": "03db3ac6-14c9-4281-b276-15b24b447c1e",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "command": "ping -c 4 192.168.0.1 || restart"
+      },
+      "type": "n8n-nodes-base.ssh",
+      "typeVersion": 1,
+      "position": [
+        448,
+        -128
+      ],
+      "id": "f96a93eb-b88f-415c-80e4-2fc18227ce9b",
+      "name": "Execute a command",
+      "credentials": {
+        "sshPassword": {
+          "id": "1ZY67Sn1wFIJHbBZ",
+          "name": "SSH Password account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "amount": 2,
+        "unit": "minutes"
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        672,
+        -128
+      ],
+      "id": "58aafd40-e77e-4d5d-99a6-3764043f3caa",
+      "name": "Wait",
+      "webhookId": "06a504c7-aef3-40b1-a741-8ad7746f0843"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1424,
+        96
+      ],
+      "id": "3ea1d2c3-47c8-467d-bf84-3e9efce70c4f",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {
+        "preBuiltAgentsCalloutHttpRequest": "",
+        "httpVariantWarning": "",
+        "curlImport": "",
+        "method": "POST",
+        "": "",
+        "url": "http://192.168.4.164/zabbix/api_jsonrpc.php",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "zabbixApi",
+        "provideSslCertificates": false,
+        "sendQuery": false,
+        "sendHeaders": false,
+        "sendBody": true,
+        "contentType": "json",
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"jsonrpc\": \"2.0\",\n  \"method\": \"item.get\",\n  \"params\": {\n    \"output\": [\"itemid\", \"name\", \"key_\", \"lastvalue\", \"units\"],\n    \"search\": {\n    \"key_\": \"icmppingloss\"\n    },\n    \"filter\": {\"host\": [\"{{ $json.body.host_name }}\"] },\n    \"sortfield\": \"name\",\n    \"sortorder\": \"ASC\"\n  },\n  \"id\": 1\n}",
+        "options": {},
+        "infoMessage": ""
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        864,
+        -128
+      ],
+      "id": "1924bed2-7e9f-4d6c-8a0a-bf300e0dfe92",
+      "name": "Zabbix HTTP Request",
+      "extendsCredential": "zabbixApi",
+      "executeOnce": false,
+      "alwaysOutputData": false,
+      "credentials": {
+        "zabbixApi": {
+          "id": "8Oz4idcKu8Rp7WFP",
+          "name": "Zabbix account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "d9f77836-d86c-413d-986a-b91db7df23c2",
+              "leftValue": "={{ $json.result[0].lastvalue }}",
+              "rightValue": 40,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1088,
+        -128
+      ],
+      "id": "5e0e5d6f-78b8-4c81-948f-8a52ac3218ee",
+      "name": "If"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Execute a command",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute a command": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Zabbix HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "No Operation, do nothing": {
+      "main": [
+        []
+      ]
+    },
+    "Zabbix HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Execute a command",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "68a47ff7-882b-4c7a-a998-1bea31362f06",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "3fccba1804c4157aa9886a850dd15e7a2841e53af1387145b2551d332d114890"
+  },
+  "id": "DoNjVozCbZ7nq1DY",
+  "tags": []
+}
