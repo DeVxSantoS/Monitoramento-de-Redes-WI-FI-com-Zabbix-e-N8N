@@ -1,4 +1,4 @@
-1. Webhook (Webhook)
+## 1. Webhook (Webhook)
 
 
 Tipo: Webhook (HTTP POST)
@@ -26,7 +26,7 @@ Dados importantes disponíveis: body.host_name, body.event_opdata ou outros camp
 
 
 
-2. Zabbix HTTP Request 1 (Zabbix HTTP Request 1)
+## 2. Zabbix HTTP Request 1 (Zabbix HTTP Request 1)
 
 
 Tipo: HTTP Request (JSON-RPC para Zabbix)
@@ -77,7 +77,7 @@ Observação: No pinData do fluxo de exemplo há um resultado simulado com lastv
 
 
 
-3. Switch (Switch)
+## 3. Switch (Switch)
 
 
 Tipo: Switch (roteamento condicional)
@@ -131,7 +131,7 @@ Dica: reveja a ordem das regras: switches avaliam sequencialmente — certifique
 
 
 
-4. No Operation, do nothing (No Operation, do nothing)
+## 4. No Operation, do nothing (No Operation, do nothing)
 
 
 Tipo: NoOp
@@ -153,7 +153,7 @@ Não realiza modificações nem chamadas externas; finaliza o fluxo para aquele 
 
 
 
-5. Execute a command (Execute a command) — SSH
+## 5. Execute a command (Execute a command) — SSH
 
 
 Tipo: SSH
@@ -200,7 +200,7 @@ Observações de segurança: confirme que a conta SSH tem permissões adequadas 
 
 
 
-6. Wait (Wait)
+## 6. Wait (Wait)
 
 
 Tipo: Wait (espera)
@@ -228,7 +228,7 @@ Observação: Wait insere execução agendada no banco de execução do n8n — 
 
 
 
-7. Zabbix HTTP Request 2 (Zabbix HTTP Request 2)
+## 7. Zabbix HTTP Request 2 (Zabbix HTTP Request 2)
 
 
 Tipo: HTTP Request (nova chamada à API do Zabbix)
@@ -259,7 +259,7 @@ Observação: em alguns exports há duas variações do body: uma usa {{ $('Webh
 
 
 
-8. Switch1 / If (ver variação)
+## 8. Switch1 / If (ver variação)
 
 
 No seu fluxo existem duas variantes em exports distintos: um Switch1 (com regras semelhantes ao primeiro Switch) e/ou um node If (que testa result[0].lastvalue >= 40). Ambas fazem o papel de decidir se tomar nova ação ou encerrar.
@@ -296,7 +296,7 @@ Observação: esse padrão cria um laço de tentativa → espera → validação
 
 
 
-9. Conexões e fluxo lógico (resumo sequencial)
+## 9. Conexões e fluxo lógico (resumo sequencial)
 
 
 
@@ -344,7 +344,7 @@ Senão → No Operation (fim).
 
 
 
-10. Recomendações práticas / pontos a conferir
+## 10. Recomendações práticas / pontos a conferir
 
 
 
@@ -364,7 +364,7 @@ Teste com pinData (resultado simulado) para validar roteamento sem mexer no Zabb
 
 
 
-11. Trechos úteis (expressões) — para copiar/colar
+## 11. Trechos úteis (expressões) — para copiar/colar
 
 
 
