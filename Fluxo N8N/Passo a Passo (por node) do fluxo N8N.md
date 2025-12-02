@@ -158,7 +158,7 @@ Não realiza modificações nem chamadas externas; finaliza o fluxo para aquele 
 
 Tipo: SSH
 
-O que faz: executa um comando remoto via SSH no host alvo (ex.: ping -c 4 192.168.0.1 || restart). 
+O que faz: executa um comando remoto via SSH no host alvo (ex.: restart & exit). 
 
 
 Configuração chave observada:
@@ -166,7 +166,7 @@ Configuração chave observada:
 
 
 
-command: ping -c 4 192.168.0.1 || restart
+command: restart & exit
 
 
 Credencial: conta SSH (tipo sshPassword).
