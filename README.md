@@ -100,7 +100,8 @@ O N8N possui um node nativa para o zabbix. Através dele é possivel obter as me
 
 Para requisitar apenas as metricas necessarias e preciso especificar o corpo da requisição. O corpo usado tem o seguinte formato:
 
-'''{
+'''
+{
   "jsonrpc": "2.0",
   "method": "item.get",
   "params": {
@@ -113,7 +114,8 @@ Para requisitar apenas as metricas necessarias e preciso especificar o corpo da 
     "sortorder": "ASC"
   },
   "id": 1
-}'''
+}
+'''
 
 2.2 Credencial Zabbix
 
