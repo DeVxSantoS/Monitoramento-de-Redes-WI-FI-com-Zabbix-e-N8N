@@ -1,5 +1,7 @@
 # Node por node do fluxo N8N
 
+Descrição do funcionamento e lógica do fluxo [ping_loss](https://github.com/DeVxSantoS/Monitoramento-de-Redes-WI-FI-com-Zabbix-e-N8N/blob/950f40a04087aadc7dcc1b3748bc17b4bcbbfba8/docs/workflow)
+
 
 ## 1. Webhook (Webhook)
 
