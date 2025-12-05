@@ -36,7 +36,7 @@ Configuração chave observada:
 }
 ```
 
-Monta e envia a requisição POST para http://<zabbix-server>/zabbix/api_jsonrpc.php usando as credenciais definidas (credential Zabbix account).
+Monta e envia a requisição POST para http://"zabbix-server-ip"/zabbix/api_jsonrpc.php usando as credenciais definidas (credential Zabbix account).
 
 
 ## 3. Switch (Switch)
@@ -64,13 +64,15 @@ Tipo: SSH
 
 O que faz: executa um comando remoto via SSH no host alvo. 
 
-```command: restart & exit```
+```
+command: restart & exit
+```
+
 [imagem do Ssh]
 
 Recebe o item do Switch (quando lastvalue >= 40 no exemplo), abre conexão SSH usando as credenciais configuradas, captura a saída e status do comando e encaminha o resultado para o node Wait. 
 
 Observações de segurança: confirme que a conta SSH tem permissões adequadas, que os host da rede permitem SSH, que as credenciais dos hosts sejam iguais para todos os host e avalie riscos de executar restart automaticamente.
-
 
 
 ## 5. Wait
@@ -140,8 +142,10 @@ Se não envia sinal para NoOp.
 
 Confirme qual expressão de host usar na filter ({{ $json.body.host_name }}.
 
-A função .toNumber adicionada ao valor do evento énecessária para converter o valor da perda de pacote (que é recebido como string) para um Int (um número inteiro é necessário para a comparaçãodo switch)
-Ex.: ```={{ $json.result[0].lastvalue.toNumber() }}```
+A função .toNumber adicionada ao valor do evento énecessária para converter o valor da perda de pacote (que é recebido como string) para um Int (um número inteiro é necessário para a comparaçãodo switch). Ex.: 
+```
+={{ $json.result[0].lastvalue.toNumber() }}
+```
 
 Evite loops infinitos: implemente contador de tentativas ou limite de re-execuções.
 
