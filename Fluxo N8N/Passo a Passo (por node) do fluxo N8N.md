@@ -33,7 +33,7 @@ Configuração chave observada:
     "sortfield":"name","sortorder":"ASC"
   },
   "id":1
-}```
+}
 
 Monta e envia a requisição POST para http://<zabbix-server>/zabbix/api_jsonrpc.php usando as credenciais definidas (credential Zabbix account).
 
