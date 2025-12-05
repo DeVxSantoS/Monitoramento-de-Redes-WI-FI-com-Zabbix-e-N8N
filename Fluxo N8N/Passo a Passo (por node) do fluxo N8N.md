@@ -9,7 +9,8 @@ Tipo: Webhook (HTTP POST)
 
 O que faz: recebe a chamada HTTP do Zabbix com os parâmetros do evento, iniciando o fluxo (método POST). 
 
-[imagem do webhook]
+<img width="1915" height="896" alt="Captura de tela 2025-12-05 185927" src="https://github.com/user-attachments/assets/ba81cee4-691e-4ae9-ae63-28fc204ce2d5" />
+
 
 Dados importantes disponíveis: body.host_name, body.host_ip, body.event_opdata ou outros campos enviados pelo Zabbix — usados nas expressões dos nodes seguintes. 
 
@@ -21,7 +22,8 @@ Tipo: API Call (HTTP Request)
 
 O que faz: consulta a API do Zabbix para buscar itens (icmppingloss) filtrados pelo host recebido no webhook. 
 
-[imagem do node]
+<img width="1900" height="888" alt="Captura de tela 2025-12-05 185947" src="https://github.com/user-attachments/assets/588195ad-7781-4c0e-9ca3-5c0be8ad3b76" />
+
 
 Configuração chave observada:
 ```
@@ -48,7 +50,8 @@ Tipo: Switch
 
 O que faz: avalia o valor retornado pelo Zabbix (result[0].lastvalue) e cria caminhos de execução diferentes conforme regras (=100%, >40%). 
 
-[imagem do switch]
+<img width="1919" height="896" alt="Captura de tela 2025-12-05 190014" src="https://github.com/user-attachments/assets/26075d28-25cc-473c-b7c3-a590a9296666" />
+
 
 Regras observadas:
 
@@ -70,7 +73,8 @@ O que faz: executa um comando remoto via SSH no host alvo.
 command: restart & exit
 ```
 
-[imagem do Ssh]
+<img width="1919" height="896" alt="Captura de tela 2025-12-05 190056" src="https://github.com/user-attachments/assets/c4cabed4-e39c-4ef5-a151-e00f81684fad" />
+
 
 Recebe o item do Switch (quando lastvalue >= 40 no exemplo), abre conexão SSH usando as credenciais configuradas, captura a saída e status do comando e encaminha o resultado para o node Wait. 
 
@@ -83,7 +87,8 @@ Tipo: Wait (espera)
 
 O que faz: pausa o fluxo por um período configurado (2 minutos) antes de prosseguir — usado para dar tempo ao dispositivo/ação corretiva surtir efeito. 
 
-[imagem do wait]
+<img width="1919" height="896" alt="Captura de tela 2025-12-05 190111" src="https://github.com/user-attachments/assets/f8f5863c-a2f5-4034-b3f1-af57cbda752b" />
+
 
 Após o tempo expirar, passa para o próximo node (Zabbix HTTP Request 2) para re-checar o estado.
 
@@ -122,9 +127,10 @@ Tipo: NoOp
 
 O que faz(não faz:/): ponto final que não realiza ação — serve para encerrar elegantemente um caminho sem erros. 
 
-[imagem do NoOp]
+<img width="1919" height="896" alt="Captura de tela 2025-12-05 190140" src="https://github.com/user-attachments/assets/2c2aa97b-73f1-4e0c-a898-bff6fce0802c" />
 
-## 8. Conexões e fluxo lógico (resumo sequencial)
+
+## 9. Conexões e fluxo lógico (resumo sequencial)
 
 1. Webhook recebe evento externo. 
 2. Zabbix HTTP Request 1 consulta o item (icmppingloss) do host. 
@@ -140,7 +146,7 @@ Se não envia sinal para NoOp.
 8. No Operation (fim). 
 
 
-## 9. Recomendações práticas / pontos a conferir
+## 10. Recomendações práticas / pontos a conferir
 
 Confirme qual expressão de host usar na filter ({{ $json.body.host_name }}.
 
