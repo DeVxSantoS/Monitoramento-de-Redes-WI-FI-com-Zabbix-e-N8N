@@ -39,10 +39,10 @@ Configuração chave observada:
 Monta e envia a requisição POST para http://"zabbix-server-ip"/zabbix/api_jsonrpc.php usando as credenciais definidas (credential Zabbix account).
 
 
-## 3. Switch (Switch)
+## 3. Switch 1
 
 
-Tipo: Switch (roteamento condicional)
+Tipo: Switch
 
 O que faz: avalia o valor retornado pelo Zabbix (result[0].lastvalue) e cria caminhos de execução diferentes conforme regras (=100%, >40%). 
 
